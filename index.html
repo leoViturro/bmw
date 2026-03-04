@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>N54 King Performance</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-dark: #050608;
-            --panel-bg: rgba(16, 18, 22, 0.95);
+            --panel-bg: rgba(10, 12, 16, 0.96);
             --panel-border: rgba(255, 255, 255, 0.08);
-            --m-blue-light: #00f2ff;
+            --m-blue-light: #00a2e8;
             --m-blue-dark: #1c39bb;
             --m-red: #ed1c24;
-            --accent-red-glow: rgba(237, 28, 36, 0.6);
             --text-main: #ffffff;
-            --text-muted: #8a8d93;
+            --text-muted: #62656a;
             --display-bg: #000000;
             --warning-orange: #ffaa00;
+            --carbon-pattern: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
         }
 
         * {
@@ -34,124 +34,172 @@
             margin: 0;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Cambiado para evitar centrado vertical estricto */
-            min-height: 100vh; /* Permite scroll si es necesario en pantallas muy pequeñas */
+            align-items: flex-start;
+            min-height: 100vh;
             width: 100vw;
-            background-image: 
-                linear-gradient(45deg, rgba(255,255,255,0.01) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0.01) 75%, transparent 75%, transparent),
-                radial-gradient(circle at 50% 0%, #1a202c 0%, transparent 80%);
-            background-size: 4px 4px, 100% 100%;
+            /* Fondo inspirado en fibra de carbono */
+            background: 
+                linear-gradient(135deg, #0f1115 0%, #050608 100%);
+            background-attachment: fixed;
             overflow-x: hidden;
         }
 
+        /* Capa de textura de carbono */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2) 75%, transparent 75%, transparent),
+                linear-gradient(-45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2) 75%, transparent 75%, transparent);
+            background-size: 4px 4px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
         .main-container {
-            width: 94%;
+            width: 92%;
             max-width: 400px;
             height: auto; 
-            padding: 20px; /* Aumentado para des-comprimir el contenido */
+            padding: 24px;
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
-            border-radius: 30px;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
-            backdrop-filter: blur(25px);
+            border-radius: 32px;
+            box-shadow: 
+                0 40px 100px rgba(0,0,0,0.9),
+                inset 0 0 40px rgba(0,0,0,0.5);
+            backdrop-filter: blur(40px);
             position: relative;
             display: flex;
             flex-direction: column;
-            gap: 12px; /* Aumentado para dar más aire entre secciones */
-            margin: 6vh auto 25px auto; /* 6vh de espacio superior, elimina el espacio gigante de antes */
+            gap: 18px;
+            margin: 1.5vh auto 30px auto; 
+            overflow: hidden; /* Importante para que las franjas respeten la curva */
         }
 
+        /* Franjas M-Power corregidas */
         .m-accent-border {
             position: absolute;
             top: 0; left: 0; right: 0;
-            height: 4px;
+            height: 6px;
             display: flex;
-            z-index: 10;
-            border-radius: 30px 30px 0 0; /* Asegura que siga la curva del contenedor */
-            overflow: hidden;
+            z-index: 20;
+            /* No necesita border-radius porque el contenedor tiene overflow:hidden */
         }
-        .b-1 { background: #00a2e8; flex: 1; }
-        .b-2 { background: var(--m-blue-dark); flex: 1; }
-        .b-3 { background: var(--m-red); flex: 1; }
+        .b-1 { background: var(--m-blue-light); flex: 1; box-shadow: 0 2px 10px rgba(0, 162, 232, 0.4); }
+        .b-2 { background: var(--m-blue-dark); flex: 1; box-shadow: 0 2px 10px rgba(28, 57, 187, 0.4); }
+        .b-3 { background: var(--m-red); flex: 1; box-shadow: 0 2px 10px rgba(237, 28, 36, 0.4); }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 10px; /* Despega el logo de las franjas */
+            margin-top: 12px;
         }
 
         .logo {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
+            font-size: 2rem;
+            font-weight: 800;
             font-style: italic;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
+            background: linear-gradient(to bottom, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .logo span { color: var(--m-red); }
+        .logo span { 
+            color: var(--m-red); 
+            -webkit-text-fill-color: var(--m-red);
+            text-shadow: 0 0 15px rgba(237, 28, 36, 0.4);
+        }
+
+        .signal-indicator {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+        }
 
         .display-group {
             display: flex;
-            gap: 10px;
-            margin-top: 15px; /* Ajustado para que no dependa de porcentajes de altura */
+            gap: 14px;
         }
 
         .display-box {
             flex: 1;
-            background: var(--display-bg);
-            border-bottom: 3px solid #00a2e8;
-            border-radius: 15px;
-            padding: 10px;
-            box-shadow: inset 0 2px 15px rgba(0,0,0,0.6);
-            transition: all 0.2s ease;
+            background: #000;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 4px solid var(--m-blue-light);
+            border-radius: 14px;
+            padding: 16px 12px;
             position: relative;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 20px rgba(0, 162, 232, 0.05);
         }
-        .display-box:active { transform: scale(0.98); }
-        .display-box.duty { border-bottom-color: var(--m-red); }
+        .display-box.duty { border-left-color: var(--m-red); box-shadow: inset 0 0 20px rgba(237, 28, 36, 0.05); }
+        
+        .display-box:active { transform: scale(0.95); background: #050505; }
 
         .display-label {
             font-size: 0.55rem;
             color: var(--text-muted);
-            font-weight: 700;
+            font-weight: 900;
             text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 2px;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
         }
 
         .display-value {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 2.6rem;
+            font-size: 3rem;
             font-weight: 700;
             display: flex;
             align-items: baseline;
-            justify-content: center;
-            line-height: 1;
+            justify-content: flex-start;
+            line-height: 0.85;
+            color: #fff;
         }
-        .display-unit { font-size: 0.9rem; color: var(--text-muted); margin-left: 4px; }
+        .display-unit { font-size: 0.85rem; color: var(--text-muted); margin-left: 4px; font-weight: 600; }
+
+        .peak-container {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.6rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
 
         .controls-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 14px; /* Aumentado para dar más aire entre los bloques de control */
-            margin: 20px 0; /* Más espacio arriba y abajo */
+            gap: 14px;
         }
 
         .control-group {
-            background: rgba(255,255,255,0.02);
-            border-radius: 16px;
-            padding: 14px 14px 10px 14px; /* Mayor relleno interno para que no se vea apretado */
+            background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+            border-radius: 20px;
+            padding: 16px;
             border: 1px solid var(--panel-border);
             position: relative;
-            min-height: 88px;
         }
 
         .control-label {
             font-size: 0.65rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 3px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            margin-bottom: 10px;
             display: block;
         }
 
@@ -162,141 +210,152 @@
         }
 
         .btn-plus-minus {
-            width: 42px;
-            height: 42px;
-            background: linear-gradient(145deg, #1a1d24, #0d0f12);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #1e2128 0%, #0c0d10 100%);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 12px;
-            color: white;
-            font-size: 1.4rem;
+            color: #fff;
+            font-size: 1.6rem;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .btn-plus-minus:active { background: #1c1f26; }
+        .btn-plus-minus:active { 
+            transform: translateY(2px) scale(0.92);
+            background: #15171c;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.6);
+        }
 
         .control-value {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 2.2rem;
+            font-size: 2.6rem;
             font-weight: 700;
-            min-width: 80px;
-            text-align: center;
-        }
-
-        .action-area {
-            margin-top: 2px;
-            min-height: 65px;
-            display: flex;
-            align-items: center;
+            color: #fff;
+            text-shadow: 0 0 25px rgba(255,255,255,0.15);
         }
 
         #prepareBtn {
-            background: linear-gradient(135deg, #cc0000 0%, #800000 100%);
+            background: linear-gradient(135deg, #ed1c24 0%, #8b1014 100%);
             color: white;
-            border: 1px solid #000;
-            outline: 1px solid rgba(255,255,255,0.1);
-            padding: 14px;
+            border: none;
+            padding: 20px;
             border-radius: 16px;
             font-size: 1.2rem;
-            font-weight: 700;
+            font-weight: 800;
             width: 100%;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 35px rgba(237, 28, 36, 0.3);
             cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 5px;
         }
+        #prepareBtn:active { transform: translateY(3px) scale(0.98); opacity: 0.95; }
 
         .slider-container {
             display: none;
             background: #000;
-            border-radius: 40px;
-            height: 62px;
+            border-radius: 50px;
+            height: 68px;
             width: 100%;
             position: relative;
-            border: 2px solid rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
             overflow: hidden; 
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: inset 0 5px 20px rgba(0,0,0,1);
+            margin-top: 5px;
         }
 
         .slider-container.success-state {
             border-color: var(--m-blue-light);
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4), inset 0 0 10px rgba(0, 242, 255, 0.2);
+            box-shadow: 0 0 30px rgba(0, 162, 232, 0.4), inset 0 0 15px rgba(0, 162, 232, 0.2);
         }
 
         .slider-track-text {
             position: absolute;
             width: 100%; height: 100%;
             display: flex; justify-content: center; align-items: center;
-            color: var(--text-muted); 
+            color: #444; 
             font-size: 0.75rem; 
-            font-weight: 700;
-            letter-spacing: 1.5px;
+            font-weight: 900;
+            letter-spacing: 2px;
             z-index: 1;
+            text-transform: uppercase;
         }
 
         .slider-thumb {
-            width: 52px; height: 52px;
-            background: var(--m-red);
+            width: 58px; height: 58px;
+            background: linear-gradient(135deg, var(--m-red), #9e1217);
             border-radius: 50%;
             position: absolute; left: 5px; top: 3px;
             display: flex; justify-content: center; align-items: center;
             z-index: 6;
-            box-shadow: 0 0 15px var(--accent-red-glow);
-            transition: transform 0.1s ease;
+            box-shadow: 0 5px 15px rgba(237, 28, 36, 0.5);
         }
 
         .slider-progress {
             position: absolute; top: 0; left: 0; height: 100%;
-            background: rgba(237, 28, 36, 0.2);
+            background: linear-gradient(90deg, transparent, rgba(237, 28, 36, 0.4));
             z-index: 2;
         }
 
         .warning-msg {
             font-size: 0.6rem;
             color: var(--warning-orange);
-            font-weight: 800;
+            font-weight: 900;
             text-align: center;
-            margin-top: 1px;
+            margin-top: 6px;
             visibility: hidden;
-            text-transform: uppercase;
+            letter-spacing: 1.5px;
         }
 
-        .critical { border-color: var(--warning-orange); background: rgba(255, 170, 0, 0.05); }
+        .critical { 
+            border-color: rgba(255, 170, 0, 0.4); 
+            background: linear-gradient(180deg, rgba(255, 170, 0, 0.05) 0%, transparent 100%); 
+        }
         .critical .warning-msg { visibility: visible; animation: pulse-warn 1s infinite; }
 
         @keyframes pulse-warn {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.98); }
         }
     </style>
 </head>
 <body>
 
 <div class="main-container" id="app">
+    <!-- Franjas M corregidas al borde curvo del contenedor -->
     <div class="m-accent-border">
         <div class="b-1"></div><div class="b-2"></div><div class="b-3"></div>
     </div>
 
     <div class="header">
         <div class="logo">N54 <span>KING</span></div>
-        <div class="signal-indicator" style="background:rgba(255,255,255,0.05); padding:4px 10px; border-radius:12px; font-size:0.65rem; font-weight:700; display:flex; align-items:center; gap:6px;">
+        <div class="signal-indicator">
             <div id="statusDot" style="width:8px; height:8px; border-radius:50%; background:#ed1c24; box-shadow:0 0 10px #ed1c24;"></div>
-            <span id="statusText" style="color:var(--text-muted);">DESCONECTADO</span>
+            <span id="statusText">SIN SEÑAL</span>
         </div>
     </div>
 
     <div class="display-group">
         <div class="display-box" onclick="resetPeak('boost')">
-            <div class="display-label">PRESIÓN</div>
+            <div class="display-label">BOOST</div>
             <div class="display-value"><span id="readPresion">0.0</span><span class="display-unit">PSI</span></div>
-            <div style="font-size:0.6rem; text-align:center; color:var(--text-muted);"><span style="color:var(--m-blue-light)">MÁX</span> <span id="peakBoost">0.0</span></div>
+            <div class="peak-container">
+                <span style="color:var(--m-blue-light)">MÁXIMO</span>
+                <span id="peakBoost" style="color:#fff">0.0</span>
+            </div>
         </div>
         <div class="display-box duty" onclick="resetPeak('duty')">
-            <div class="display-label">DUTY</div>
+            <div class="display-label">DUTY CYCLE</div>
             <div class="display-value"><span id="readDuty">0</span><span class="display-unit">%</span></div>
-            <div style="font-size:0.6rem; text-align:center; color:var(--text-muted);"><span style="color:var(--m-red)">MÁX</span> <span id="peakDuty">0</span></div>
+            <div class="peak-container">
+                <span style="color:var(--m-red)">MÁXIMO</span>
+                <span id="peakDuty" style="color:#fff">0</span>
+            </div>
         </div>
     </div>
 
@@ -308,7 +367,7 @@
                 <span class="control-value" id="valPI">10</span>
                 <button class="btn-plus-minus" onmousedown="handlePress(event, 'pi', 1)" ontouchstart="handlePress(event, 'pi', 1)">+</button>
             </div>
-            <div class="warning-msg">AJUSTANDO</div>
+            <div class="warning-msg">AJUSTANDO MAPA</div>
         </div>
 
         <div class="control-group">
@@ -318,7 +377,7 @@
                 <span class="control-value" id="valPF">20</span>
                 <button class="btn-plus-minus" onmousedown="handlePress(event, 'pf', 1)" ontouchstart="handlePress(event, 'pf', 1)">+</button>
             </div>
-            <div class="warning-msg">AJUSTANDO</div>
+            <div class="warning-msg">AJUSTANDO MAPA</div>
         </div>
 
         <div class="control-group" id="dutyGroupI">
@@ -328,7 +387,7 @@
                 <span class="control-value" id="valDI">30</span>
                 <button class="btn-plus-minus" onmousedown="handlePress(event, 'di', 1)" ontouchstart="handlePress(event, 'di', 1)">+</button>
             </div>
-            <div class="warning-msg">PELIGRO: DUTY ALTO</div>
+            <div class="warning-msg">AVISO: DUTY ELEVADO</div>
         </div>
 
         <div class="control-group" id="dutyGroupF">
@@ -338,17 +397,17 @@
                 <span class="control-value" id="valDF">60</span>
                 <button class="btn-plus-minus" onmousedown="handlePress(event, 'df', 1)" ontouchstart="handlePress(event, 'df', 1)">+</button>
             </div>
-            <div class="warning-msg">PELIGRO: DUTY ALTO</div>
+            <div class="warning-msg">AVISO: DUTY ELEVADO</div>
         </div>
     </div>
 
-    <div class="action-area">
-        <button id="prepareBtn" onclick="showSlider()">PROGRAMAR</button>
+    <div class="action-area" style="min-height: 80px; display:flex; align-items:center;">
+        <button id="prepareBtn" onclick="showSlider()">PROGRAMAR ECU</button>
         <div class="slider-container" id="sliderContainer">
             <div class="slider-progress" id="sliderProgress"></div>
-            <div class="slider-track-text" id="sliderText">DESLIZA PARA GRABAR</div>
+            <div class="slider-track-text" id="sliderText">CONFIRMAR ESCRITURA</div>
             <div class="slider-thumb" id="sliderThumb">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="white"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
             </div>
         </div>
     </div>
@@ -360,10 +419,10 @@
     let isLocked = false;
     let adjustInterval;
 
-    function haptic(ms = 15) { if (navigator.vibrate) navigator.vibrate(ms); }
+    function haptic(ms = 20) { if (navigator.vibrate) navigator.vibrate(ms); }
 
     function resetPeak(type) {
-        haptic(30);
+        haptic(40);
         peaks[type] = 0;
         document.getElementById(type === 'boost' ? 'peakBoost' : 'peakDuty').innerText = type === 'boost' ? '0.0' : '0';
     }
@@ -373,7 +432,7 @@
         e.preventDefault();
         haptic(15);
         updateValue(id, delta);
-        adjustInterval = setInterval(() => { haptic(10); updateValue(id, delta); }, 80);
+        adjustInterval = setInterval(() => { haptic(10); updateValue(id, delta); }, 100);
     }
 
     function stopAdjust() { clearInterval(adjustInterval); }
@@ -389,35 +448,33 @@
         nv = Math.max(0, Math.min(100, nv));
         values[id] = nv;
         document.getElementById(`val${id.toUpperCase()}`).innerText = nv;
-        document.getElementById('dutyGroupI').classList.toggle('critical', values.di > 85);
-        document.getElementById('dutyGroupF').classList.toggle('critical', values.df > 85);
+        document.getElementById('dutyGroupI').classList.toggle('critical', values.di > 80);
+        document.getElementById('dutyGroupF').classList.toggle('critical', values.df > 80);
     }
 
-    // Función para manejar el estado visual de la conexión Bluetooth/Serial
     function setConnectionState(isConnected) {
         const dot = document.getElementById('statusDot');
         const text = document.getElementById('statusText');
         if (isConnected) {
             dot.style.background = '#00f260';
-            dot.style.boxShadow = '0 0 10px #00f260';
+            dot.style.boxShadow = '0 0 15px #00f260';
             text.innerText = 'CONECTADO';
             text.style.color = 'var(--text-main)';
         } else {
             dot.style.background = '#ed1c24';
             dot.style.boxShadow = '0 0 10px #ed1c24';
-            text.innerText = 'DESCONECTADO';
+            text.innerText = 'SIN SEÑAL';
             text.style.color = 'var(--text-muted)';
         }
     }
 
     function showSlider() {
-        haptic(40);
+        haptic(50);
         isLocked = true;
-        document.getElementById('controlsContainer').style.opacity = '0.2';
+        document.getElementById('controlsContainer').style.opacity = '0.3';
         document.getElementById('prepareBtn').style.display = 'none';
         const container = document.getElementById('sliderContainer');
         container.style.display = 'block';
-        container.classList.remove('success-state');
     }
 
     const thumb = document.getElementById('sliderThumb');
@@ -426,22 +483,20 @@
     const sliderText = document.getElementById('sliderText');
     let isDragging = false;
 
-    const onStart = (e) => { if (!isLocked) return; isDragging = true; haptic(10); thumb.style.transition = 'none'; };
+    const onStart = (e) => { if (!isLocked) return; isDragging = true; thumb.style.transition = 'none'; haptic(10); };
     
     const onEnd = () => {
         if (!isDragging) return;
         isDragging = false;
         let pos = parseInt(thumb.style.left) || 5;
-        let maxPos = container.offsetWidth - 58;
-        if (pos > maxPos - 15) {
+        let maxPos = container.offsetWidth - 65;
+        if (pos > maxPos - 10) {
             confirmProgram();
         } else {
-            thumb.style.transition = 'all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            thumb.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
             thumb.style.left = '5px';
             progress.style.width = '0';
             sliderText.style.opacity = '1';
-            thumb.style.background = 'var(--m-red)';
-            thumb.style.boxShadow = '0 0 15px var(--accent-red-glow)';
         }
     };
 
@@ -449,18 +504,10 @@
         if (!isDragging) return;
         let clientX = e.touches ? e.touches[0].clientX : e.clientX;
         let rect = container.getBoundingClientRect();
-        let maxPos = container.offsetWidth - 58;
-        let x = Math.max(5, Math.min(clientX - rect.left - 26, maxPos));
+        let maxPos = container.offsetWidth - 65;
+        let x = Math.max(5, Math.min(clientX - rect.left - 30, maxPos));
         thumb.style.left = x + 'px';
-        progress.style.width = x + 26 + 'px';
-        
-        let factor = (x - 5) / (maxPos - 5);
-        let r = Math.round(237 + factor * (0 - 237));
-        let g = Math.round(28 + factor * (242 - 28));
-        let b = Math.round(36 + factor * (255 - 36));
-        thumb.style.background = `rgb(${r}, ${g}, ${b})`;
-        thumb.style.boxShadow = `0 0 ${15 + factor * 10}px rgba(${r}, ${g}, ${b}, 0.6)`;
-        
+        progress.style.width = x + 30 + 'px';
         sliderText.style.opacity = 1 - (x / maxPos);
     };
 
@@ -472,32 +519,30 @@
     window.addEventListener('mousemove', onMove);
 
     function confirmProgram() {
-        haptic([60, 40, 60]);
+        haptic([80, 50, 100]);
         container.classList.add('success-state');
-        thumb.style.left = (container.offsetWidth - 58) + 'px';
+        thumb.style.left = (container.offsetWidth - 65) + 'px';
         thumb.style.background = 'var(--m-blue-light)';
-        thumb.style.boxShadow = '0 0 20px var(--m-blue-light)';
-        thumb.innerHTML = '<svg viewBox="0 0 24 24" width="28" height="28" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
-        
-        sliderText.innerText = "GRABADO";
+        thumb.style.boxShadow = '0 0 25px var(--m-blue-light)';
+        thumb.innerHTML = '<svg viewBox="0 0 24 24" width="30" height="30" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+        sliderText.innerText = "TRANSFERENCIA EXITOSA";
         sliderText.style.opacity = "1";
         sliderText.style.color = "var(--m-blue-light)";
-        sliderText.style.textShadow = "0 0 10px rgba(0, 242, 255, 0.5)";
 
         setTimeout(() => {
             isLocked = false;
             document.getElementById('controlsContainer').style.opacity = '1';
             document.getElementById('prepareBtn').style.display = 'block';
             container.style.display = 'none';
+            container.classList.remove('success-state');
             thumb.style.left = '5px';
-            thumb.style.background = 'var(--m-red)';
-            thumb.style.boxShadow = '0 0 15px var(--accent-red-glow)';
+            thumb.style.background = 'linear-gradient(135deg, var(--m-red), #9e1217)';
+            thumb.style.boxShadow = '0 5px 15px rgba(237, 28, 36, 0.5)';
             progress.style.width = '0';
-            thumb.innerHTML = `<svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>`;
-            sliderText.innerText = "DESLIZA PARA GRABAR";
-            sliderText.style.color = "var(--text-muted)";
-            sliderText.style.textShadow = "none";
-        }, 3000);
+            thumb.innerHTML = `<svg viewBox="0 0 24 24" width="28" height="28" fill="white"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>`;
+            sliderText.innerText = "CONFIRMAR ESCRITURA";
+            sliderText.style.color = "#444";
+        }, 2500);
     }
 </script>
 </body>
