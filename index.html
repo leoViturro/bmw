@@ -34,7 +34,7 @@
             margin: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Cambiado para evitar centrado vertical estricto */
             min-height: 100vh; /* Permite scroll si es necesario en pantallas muy pequeñas */
             width: 100vw;
             background-image: 
@@ -47,9 +47,8 @@
         .main-container {
             width: 94%;
             max-width: 400px;
-            /* Cambiado de height 98vh a auto para evitar que se estiren los elementos */
             height: auto; 
-            padding: 12px;
+            padding: 20px; /* Aumentado para des-comprimir el contenido */
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
             border-radius: 30px;
@@ -58,8 +57,8 @@
             position: relative;
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            margin: 20px auto; /* Centrado vertical en la pantalla */
+            gap: 12px; /* Aumentado para dar más aire entre secciones */
+            margin: 6vh auto 25px auto; /* 6vh de espacio superior, elimina el espacio gigante de antes */
         }
 
         .m-accent-border {
@@ -68,6 +67,8 @@
             height: 4px;
             display: flex;
             z-index: 10;
+            border-radius: 30px 30px 0 0; /* Asegura que siga la curva del contenedor */
+            overflow: hidden;
         }
         .b-1 { background: #00a2e8; flex: 1; }
         .b-2 { background: var(--m-blue-dark); flex: 1; }
@@ -77,7 +78,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 5px;
+            margin-top: 10px; /* Despega el logo de las franjas */
         }
 
         .logo {
@@ -130,17 +131,16 @@
         .display-unit { font-size: 0.9rem; color: var(--text-muted); margin-left: 4px; }
 
         .controls-wrapper {
-            /* Eliminado flex-grow para evitar estiramiento */
             display: flex;
             flex-direction: column;
-            gap: 8px; /* Gap fijo para mantener cercanía */
-            margin: 15px 0;
+            gap: 14px; /* Aumentado para dar más aire entre los bloques de control */
+            margin: 20px 0; /* Más espacio arriba y abajo */
         }
 
         .control-group {
             background: rgba(255,255,255,0.02);
             border-radius: 16px;
-            padding: 8px 14px 4px 14px;
+            padding: 14px 14px 10px 14px; /* Mayor relleno interno para que no se vea apretado */
             border: 1px solid var(--panel-border);
             position: relative;
             min-height: 88px;
