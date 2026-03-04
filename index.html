@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>N54 King Performance</title>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -35,20 +35,20 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh; /* Permite scroll si es necesario en pantallas muy pequeñas */
             width: 100vw;
             background-image: 
                 linear-gradient(45deg, rgba(255,255,255,0.01) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0.01) 75%, transparent 75%, transparent),
                 radial-gradient(circle at 50% 0%, #1a202c 0%, transparent 80%);
             background-size: 4px 4px, 100% 100%;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         .main-container {
             width: 94%;
             max-width: 400px;
-            height: 98vh;
-            max-height: 850px;
+            /* Cambiado de height 98vh a auto para evitar que se estiren los elementos */
+            height: auto; 
             padding: 12px;
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
@@ -59,7 +59,7 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
-            overflow: hidden; 
+            margin: 20px auto; /* Centrado vertical en la pantalla */
         }
 
         .m-accent-border {
@@ -92,7 +92,7 @@
         .display-group {
             display: flex;
             gap: 10px;
-            margin-top: 8%; 
+            margin-top: 15px; /* Ajustado para que no dependa de porcentajes de altura */
         }
 
         .display-box {
@@ -130,11 +130,11 @@
         .display-unit { font-size: 0.9rem; color: var(--text-muted); margin-left: 4px; }
 
         .controls-wrapper {
-            flex-grow: 1;
+            /* Eliminado flex-grow para evitar estiramiento */
             display: flex;
             flex-direction: column;
-            gap: 5px;
-            justify-content: center;
+            gap: 8px; /* Gap fijo para mantener cercanía */
+            margin: 15px 0;
         }
 
         .control-group {
@@ -282,8 +282,8 @@
     <div class="header">
         <div class="logo">N54 <span>KING</span></div>
         <div class="signal-indicator" style="background:rgba(255,255,255,0.05); padding:4px 10px; border-radius:12px; font-size:0.65rem; font-weight:700; display:flex; align-items:center; gap:6px;">
-            <div id="statusDot" style="width:8px; height:8px; border-radius:50%; background:#00f260; box-shadow:0 0 10px #00f260;"></div>
-            <span id="statusText">CONECTADO</span>
+            <div id="statusDot" style="width:8px; height:8px; border-radius:50%; background:#ed1c24; box-shadow:0 0 10px #ed1c24;"></div>
+            <span id="statusText" style="color:var(--text-muted);">DESCONECTADO</span>
         </div>
     </div>
 
@@ -384,11 +384,30 @@
         let nv = values[id] + delta;
         if (id === 'pi' && nv > values.pf) nv = values.pf;
         if (id === 'pf' && nv < values.pi) nv = values.pi;
+        if (id === 'di' && nv > values.df) nv = values.df;
+        if (id === 'df' && nv < values.di) nv = values.di;
         nv = Math.max(0, Math.min(100, nv));
         values[id] = nv;
         document.getElementById(`val${id.toUpperCase()}`).innerText = nv;
         document.getElementById('dutyGroupI').classList.toggle('critical', values.di > 85);
         document.getElementById('dutyGroupF').classList.toggle('critical', values.df > 85);
+    }
+
+    // Función para manejar el estado visual de la conexión Bluetooth/Serial
+    function setConnectionState(isConnected) {
+        const dot = document.getElementById('statusDot');
+        const text = document.getElementById('statusText');
+        if (isConnected) {
+            dot.style.background = '#00f260';
+            dot.style.boxShadow = '0 0 10px #00f260';
+            text.innerText = 'CONECTADO';
+            text.style.color = 'var(--text-main)';
+        } else {
+            dot.style.background = '#ed1c24';
+            dot.style.boxShadow = '0 0 10px #ed1c24';
+            text.innerText = 'DESCONECTADO';
+            text.style.color = 'var(--text-muted)';
+        }
     }
 
     function showSlider() {
@@ -480,9 +499,6 @@
             sliderText.style.textShadow = "none";
         }, 3000);
     }
-
-    // He eliminado la simulación automática de sensores. 
-    // Los valores reales se integrarían aquí mediante WebBluetooth u otra API de hardware.
 </script>
 </body>
 </html>
