@@ -3,11 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>N54 King Performance App</title>
+    <title>N54 King Performance</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            padding: 20px;
+        }
+        .slider {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .display {
+            margin: 10px 0;
+            font-size: 24px;
+            padding: 10px;
+            background-color: #1e1e1e;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the N54 King Performance App</h1>
-    <p>This app provides performance tuning for the N54 engine.</p>
-    <!-- Additional app code goes here -->
+    <div class="container">
+        <h1>N54 King Performance App</h1>
+        <div class="display" id="pressureReading">Pressure Reading: N/A</div>
+        <div class="display" id="adReading">AD Reading: N/A</div>
+        <div class="sliderContainer">
+            <label for="injectionThreshold">Injection Threshold</label>
+            <input type="range" id="injectionThreshold" class="slider" min="0" max="100" value="50">
+        </div>
+        <div class="sliderContainer">
+            <label for="maxLimit">Maximum Limit</label>
+            <input type="range" id="maxLimit" class="slider" min="0" max="100" value="100">
+        </div>
+        <button id="sendConfig">Send Configuration</button>
+    </div>
+    <script>
+        // Bluetooth connection code here
+        document.getElementById('sendConfig').addEventListener('click', function() {
+            // Code to send configuration via Bluetooth
+            console.log('Configuration sent');
+        });
+
+        function updateReadings() {
+            // Simulate reading values
+            document.getElementById('pressureReading').innerText = 'Pressure Reading: ' + Math.random() * 100;
+            document.getElementById('adReading').innerText = 'AD Reading: ' + Math.random() * 100;
+        }
+
+        setInterval(updateReadings, 1000);
+    </script>
 </body>
 </html>
