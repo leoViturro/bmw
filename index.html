@@ -174,6 +174,7 @@
             align-items: center;
             cursor: pointer;
         }
+        .btn-plus-minus:active { background: #1c1f26; }
 
         .control-value {
             font-family: 'Rajdhani', sans-serif;
@@ -188,31 +189,21 @@
             min-height: 65px;
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        #connectBtn {
-            background: #1a1d24;
-            color: var(--m-blue-light);
-            border: 1px solid var(--m-blue-light);
-            padding: 10px;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            flex: 1;
         }
 
         #prepareBtn {
             background: linear-gradient(135deg, #cc0000 0%, #800000 100%);
             color: white;
             border: 1px solid #000;
+            outline: 1px solid rgba(255,255,255,0.1);
             padding: 14px;
             border-radius: 16px;
             font-size: 1.2rem;
             font-weight: 700;
-            flex: 2;
+            width: 100%;
             letter-spacing: 2px;
             text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
             cursor: pointer;
         }
 
@@ -225,6 +216,24 @@
             position: relative;
             border: 2px solid rgba(255, 255, 255, 0.05);
             overflow: hidden; 
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .slider-container.success-state {
+            border-color: var(--m-blue-light);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4), inset 0 0 10px rgba(0, 242, 255, 0.2);
+        }
+
+        .slider-track-text {
+            position: absolute;
+            width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            color: var(--text-muted); 
+            font-size: 0.75rem; 
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            z-index: 1;
         }
 
         .slider-thumb {
@@ -235,6 +244,7 @@
             display: flex; justify-content: center; align-items: center;
             z-index: 6;
             box-shadow: 0 0 15px var(--accent-red-glow);
+            transition: transform 0.1s ease;
         }
 
         .slider-progress {
@@ -254,7 +264,12 @@
         }
 
         .critical { border-color: var(--warning-orange); background: rgba(255, 170, 0, 0.05); }
-        .critical .warning-msg { visibility: visible; }
+        .critical .warning-msg { visibility: visible; animation: pulse-warn 1s infinite; }
+
+        @keyframes pulse-warn {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
     </style>
 </head>
 <body>
@@ -266,48 +281,69 @@
 
     <div class="header">
         <div class="logo">N54 <span>KING</span></div>
-        <div id="btStatus" onclick="requestBluetooth()" style="background:rgba(255,255,255,0.05); padding:4px 10px; border-radius:12px; font-size:0.65rem; font-weight:700; display:flex; align-items:center; gap:6px; cursor:pointer;">
-            <div id="statusDot" style="width:8px; height:8px; border-radius:50%; background:#888;"></div>
-            <span id="statusText">CONECTAR BT</span>
+        <div class="signal-indicator" style="background:rgba(255,255,255,0.05); padding:4px 10px; border-radius:12px; font-size:0.65rem; font-weight:700; display:flex; align-items:center; gap:6px;">
+            <div id="statusDot" style="width:8px; height:8px; border-radius:50%; background:#00f260; box-shadow:0 0 10px #00f260;"></div>
+            <span id="statusText">CONECTADO</span>
         </div>
     </div>
 
     <div class="display-group">
         <div class="display-box" onclick="resetPeak('boost')">
-            <div class="display-label">PW REAL (ms)</div>
-            <div class="display-value"><span id="readPresion">0.00</span><span class="display-unit">ms</span></div>
-            <div style="font-size:0.6rem; text-align:center; color:var(--text-muted);"><span style="color:var(--m-blue-light)">MÁX</span> <span id="peakBoost">0.00</span></div>
+            <div class="display-label">PRESIÓN</div>
+            <div class="display-value"><span id="readPresion">0.0</span><span class="display-unit">PSI</span></div>
+            <div style="font-size:0.6rem; text-align:center; color:var(--text-muted);"><span style="color:var(--m-blue-light)">MÁX</span> <span id="peakBoost">0.0</span></div>
         </div>
         <div class="display-box duty" onclick="resetPeak('duty')">
-            <div class="display-label">LECTURA AD</div>
-            <div class="display-value"><span id="readDuty">0</span><span class="display-unit">pts</span></div>
+            <div class="display-label">DUTY</div>
+            <div class="display-value"><span id="readDuty">0</span><span class="display-unit">%</span></div>
             <div style="font-size:0.6rem; text-align:center; color:var(--text-muted);"><span style="color:var(--m-red)">MÁX</span> <span id="peakDuty">0</span></div>
         </div>
     </div>
 
     <div class="controls-wrapper" id="controlsContainer">
-        <!-- Controles de configuración que se envían al hardware -->
         <div class="control-group">
-            <span class="control-label">Umbral Inyección (ms)</span>
+            <span class="control-label">Presión Inicial (PSI)</span>
             <div class="control-row">
-                <button class="btn-plus-minus" onclick="updateValue('pi', -0.5)">-</button>
-                <span class="control-value" id="valPI">0.5</span>
-                <button class="btn-plus-minus" onclick="updateValue('pi', 0.5)">+</button>
+                <button class="btn-plus-minus" onmousedown="handlePress(event, 'pi', -1)" ontouchstart="handlePress(event, 'pi', -1)">-</button>
+                <span class="control-value" id="valPI">10</span>
+                <button class="btn-plus-minus" onmousedown="handlePress(event, 'pi', 1)" ontouchstart="handlePress(event, 'pi', 1)">+</button>
             </div>
+            <div class="warning-msg">AJUSTANDO</div>
         </div>
-        
+
         <div class="control-group">
-            <span class="control-label">Límite Máximo (ms)</span>
+            <span class="control-label">Presión Final (PSI)</span>
             <div class="control-row">
-                <button class="btn-plus-minus" onclick="updateValue('pf', -0.5)">-</button>
-                <span class="control-value" id="valPF">20.0</span>
-                <button class="btn-plus-minus" onclick="updateValue('pf', 0.5)">+</button>
+                <button class="btn-plus-minus" onmousedown="handlePress(event, 'pf', -1)" ontouchstart="handlePress(event, 'pf', -1)">-</button>
+                <span class="control-value" id="valPF">20</span>
+                <button class="btn-plus-minus" onmousedown="handlePress(event, 'pf', 1)" ontouchstart="handlePress(event, 'pf', 1)">+</button>
             </div>
+            <div class="warning-msg">AJUSTANDO</div>
+        </div>
+
+        <div class="control-group" id="dutyGroupI">
+            <span class="control-label">Duty Inicial (%)</span>
+            <div class="control-row">
+                <button class="btn-plus-minus" onmousedown="handlePress(event, 'di', -1)" ontouchstart="handlePress(event, 'di', -1)">-</button>
+                <span class="control-value" id="valDI">30</span>
+                <button class="btn-plus-minus" onmousedown="handlePress(event, 'di', 1)" ontouchstart="handlePress(event, 'di', 1)">+</button>
+            </div>
+            <div class="warning-msg">PELIGRO: DUTY ALTO</div>
+        </div>
+
+        <div class="control-group" id="dutyGroupF">
+            <span class="control-label">Duty Final (%)</span>
+            <div class="control-row">
+                <button class="btn-plus-minus" onmousedown="handlePress(event, 'df', -1)" ontouchstart="handlePress(event, 'df', -1)">-</button>
+                <span class="control-value" id="valDF">60</span>
+                <button class="btn-plus-minus" onmousedown="handlePress(event, 'df', 1)" ontouchstart="handlePress(event, 'df', 1)">+</button>
+            </div>
+            <div class="warning-msg">PELIGRO: DUTY ALTO</div>
         </div>
     </div>
 
     <div class="action-area">
-        <button id="prepareBtn" onclick="showSlider()">ENVIAR CONFIG</button>
+        <button id="prepareBtn" onclick="showSlider()">PROGRAMAR</button>
         <div class="slider-container" id="sliderContainer">
             <div class="slider-progress" id="sliderProgress"></div>
             <div class="slider-track-text" id="sliderText">DESLIZA PARA GRABAR</div>
@@ -319,91 +355,134 @@
 </div>
 
 <script>
-    // UUIDs para el Arduino Uno R4 BLE
-    const SERVICE_UUID = "19b10000-e8f2-537e-4f6c-d104768a1214";
-    const CHAR_DATA_UUID = "19b10001-e8f2-537e-4f6c-d104768a1214"; // Arduino -> App (Notificaciones)
-    const CHAR_CONFIG_UUID = "19b10002-e8f2-537e-4f6c-d104768a1214"; // App -> Arduino (Escritura)
-
-    let bleDevice, bleCharData, bleCharConfig;
-    let values = { pi: 0.5, pf: 20.0 };
+    let values = { pi: 10, pf: 20, di: 30, df: 60 };
     let peaks = { boost: 0.0, duty: 0 };
+    let isLocked = false;
+    let adjustInterval;
 
-    async function requestBluetooth() {
-        try {
-            document.getElementById('statusText').innerText = "BUSCANDO...";
-            bleDevice = await navigator.bluetooth.requestDevice({
-                filters: [{ namePrefix: 'N54_KING' }],
-                optionalServices: [SERVICE_UUID]
-            });
-
-            const server = await bleDevice.gatt.connect();
-            const service = await server.getPrimaryService(SERVICE_UUID);
-            bleCharData = await service.getCharacteristic(CHAR_DATA_UUID);
-            bleCharConfig = await service.getCharacteristic(CHAR_CONFIG_UUID);
-
-            // Suscribirse a los datos del Arduino
-            await bleCharData.startNotifications();
-            bleCharData.addEventListener('characteristicvaluechanged', handleHardwareData);
-
-            updateUIStatus(true);
-        } catch (error) {
-            console.log(error);
-            updateUIStatus(false);
-        }
-    }
-
-    function handleHardwareData(event) {
-        const data = event.target.value;
-        // Supongamos que el Arduino envía 4 bytes: 2 para lectura AD, 2 para PW (ms * 100)
-        const rawAD = data.getUint16(0, true);
-        const rawPW = data.getUint16(2, true) / 100.0;
-
-        document.getElementById('readDuty').innerText = rawAD;
-        document.getElementById('readPresion').innerText = rawPW.toFixed(2);
-
-        if (rawAD > peaks.duty) {
-            peaks.duty = rawAD;
-            document.getElementById('peakDuty').innerText = rawAD;
-        }
-        if (rawPW > peaks.boost) {
-            peaks.boost = rawPW;
-            document.getElementById('peakBoost').innerText = rawPW.toFixed(2);
-        }
-    }
-
-    async function sendConfigToHardware() {
-        if (!bleCharConfig) return;
-        // Enviar configuración como bytes
-        const data = new Uint16Array([values.pi * 100, values.pf * 100]);
-        await bleCharConfig.writeValue(data);
-    }
-
-    function updateUIStatus(connected) {
-        const dot = document.getElementById('statusDot');
-        const text = document.getElementById('statusText');
-        dot.style.background = connected ? "#00f260" : "#ff1c1c";
-        dot.style.boxShadow = connected ? "0 0 10px #00f260" : "0 0 10px #ff1c1c";
-        text.innerText = connected ? "N54 CONECTADO" : "CONECTAR BT";
-    }
-
-    function updateValue(id, delta) {
-        values[id] = Math.max(0, Math.min(30, values[id] + delta));
-        document.getElementById(`val${id.toUpperCase()}`).innerText = values[id].toFixed(1);
-        if (navigator.vibrate) navigator.vibrate(10);
-    }
+    function haptic(ms = 15) { if (navigator.vibrate) navigator.vibrate(ms); }
 
     function resetPeak(type) {
+        haptic(30);
         peaks[type] = 0;
-        document.getElementById(type === 'boost' ? 'peakBoost' : 'peakDuty').innerText = type === 'boost' ? '0.00' : '0';
+        document.getElementById(type === 'boost' ? 'peakBoost' : 'peakDuty').innerText = type === 'boost' ? '0.0' : '0';
     }
 
-    // Lógica del Slider (igual que antes, pero llama a sendConfigToHardware)
+    function handlePress(e, id, delta) {
+        if (isLocked) return;
+        e.preventDefault();
+        haptic(15);
+        updateValue(id, delta);
+        adjustInterval = setInterval(() => { haptic(10); updateValue(id, delta); }, 80);
+    }
+
+    function stopAdjust() { clearInterval(adjustInterval); }
+    window.addEventListener('touchend', stopAdjust);
+    window.addEventListener('mouseup', stopAdjust);
+
+    function updateValue(id, delta) {
+        let nv = values[id] + delta;
+        if (id === 'pi' && nv > values.pf) nv = values.pf;
+        if (id === 'pf' && nv < values.pi) nv = values.pi;
+        nv = Math.max(0, Math.min(100, nv));
+        values[id] = nv;
+        document.getElementById(`val${id.toUpperCase()}`).innerText = nv;
+        document.getElementById('dutyGroupI').classList.toggle('critical', values.di > 85);
+        document.getElementById('dutyGroupF').classList.toggle('critical', values.df > 85);
+    }
+
     function showSlider() {
+        haptic(40);
+        isLocked = true;
+        document.getElementById('controlsContainer').style.opacity = '0.2';
         document.getElementById('prepareBtn').style.display = 'none';
-        document.getElementById('sliderContainer').style.display = 'block';
+        const container = document.getElementById('sliderContainer');
+        container.style.display = 'block';
+        container.classList.remove('success-state');
     }
 
-    // (Aquí iría el resto del JS de manejo del slider para ejecutar sendConfigToHardware al final)
+    const thumb = document.getElementById('sliderThumb');
+    const container = document.getElementById('sliderContainer');
+    const progress = document.getElementById('sliderProgress');
+    const sliderText = document.getElementById('sliderText');
+    let isDragging = false;
+
+    const onStart = (e) => { if (!isLocked) return; isDragging = true; haptic(10); thumb.style.transition = 'none'; };
+    
+    const onEnd = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        let pos = parseInt(thumb.style.left) || 5;
+        let maxPos = container.offsetWidth - 58;
+        if (pos > maxPos - 15) {
+            confirmProgram();
+        } else {
+            thumb.style.transition = 'all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            thumb.style.left = '5px';
+            progress.style.width = '0';
+            sliderText.style.opacity = '1';
+            thumb.style.background = 'var(--m-red)';
+            thumb.style.boxShadow = '0 0 15px var(--accent-red-glow)';
+        }
+    };
+
+    const onMove = (e) => {
+        if (!isDragging) return;
+        let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        let rect = container.getBoundingClientRect();
+        let maxPos = container.offsetWidth - 58;
+        let x = Math.max(5, Math.min(clientX - rect.left - 26, maxPos));
+        thumb.style.left = x + 'px';
+        progress.style.width = x + 26 + 'px';
+        
+        let factor = (x - 5) / (maxPos - 5);
+        let r = Math.round(237 + factor * (0 - 237));
+        let g = Math.round(28 + factor * (242 - 28));
+        let b = Math.round(36 + factor * (255 - 36));
+        thumb.style.background = `rgb(${r}, ${g}, ${b})`;
+        thumb.style.boxShadow = `0 0 ${15 + factor * 10}px rgba(${r}, ${g}, ${b}, 0.6)`;
+        
+        sliderText.style.opacity = 1 - (x / maxPos);
+    };
+
+    thumb.addEventListener('touchstart', onStart);
+    thumb.addEventListener('mousedown', onStart);
+    window.addEventListener('touchend', onEnd);
+    window.addEventListener('mouseup', onEnd);
+    window.addEventListener('touchmove', onMove);
+    window.addEventListener('mousemove', onMove);
+
+    function confirmProgram() {
+        haptic([60, 40, 60]);
+        container.classList.add('success-state');
+        thumb.style.left = (container.offsetWidth - 58) + 'px';
+        thumb.style.background = 'var(--m-blue-light)';
+        thumb.style.boxShadow = '0 0 20px var(--m-blue-light)';
+        thumb.innerHTML = '<svg viewBox="0 0 24 24" width="28" height="28" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+        
+        sliderText.innerText = "GRABADO";
+        sliderText.style.opacity = "1";
+        sliderText.style.color = "var(--m-blue-light)";
+        sliderText.style.textShadow = "0 0 10px rgba(0, 242, 255, 0.5)";
+
+        setTimeout(() => {
+            isLocked = false;
+            document.getElementById('controlsContainer').style.opacity = '1';
+            document.getElementById('prepareBtn').style.display = 'block';
+            container.style.display = 'none';
+            thumb.style.left = '5px';
+            thumb.style.background = 'var(--m-red)';
+            thumb.style.boxShadow = '0 0 15px var(--accent-red-glow)';
+            progress.style.width = '0';
+            thumb.innerHTML = `<svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>`;
+            sliderText.innerText = "DESLIZA PARA GRABAR";
+            sliderText.style.color = "var(--text-muted)";
+            sliderText.style.textShadow = "none";
+        }, 3000);
+    }
+
+    // He eliminado la simulación automática de sensores. 
+    // Los valores reales se integrarían aquí mediante WebBluetooth u otra API de hardware.
 </script>
 </body>
 </html>
