@@ -464,15 +464,20 @@
     window.addEventListener('touchmove', onMove);
     window.addEventListener('mousemove', onMove);
 
-    function confirmProgram() {
-        haptic([80, 50, 100]);
-        container.style.borderColor = 'var(--m-blue-light)';
-        thumb.style.left = (container.offsetWidth - 55) + 'px';
-        thumb.style.background = 'var(--m-blue-light)';
-        thumb.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
-        sliderText.innerText = "ÉXITO";
-        sliderText.style.opacity = "1";
-        sliderText.style.color = "var(--m-blue-light)";
+   async function confirmProgram() {
+    // Esta URL le dice al Arduino: "Oye, pon estos valores"
+    const url = `http://192.168.4.1/set?pi=${values.pi}&pf=${values.pf}&di=${values.di}&df=${values.df}&`;
+    
+    try {
+        const res = await fetch(url); // Enviamos el comando por WiFi
+        if(res.ok) {
+            sliderText.innerText = "ECU ACTUALIZADA"; // Si el Arduino responde
+            haptic(100);
+        }
+    } catch (e) {
+        sliderText.innerText = "ERROR WIFI"; // Si no estás conectado al WiFi correcto
+    }
+}
 
         setTimeout(() => {
             isLocked = false;
