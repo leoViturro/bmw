@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>N54 King Performance</title>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+     <style>
         :root {
             --bg-dark: #050608;
             --panel-bg: rgba(10, 12, 16, 0.96);
@@ -33,12 +34,12 @@
             margin: 0;
             display: flex;
             justify-content: center;
-            align-items: center; /* Centrado para mejor visualización sin scroll */
+            align-items: center;
             min-height: 100vh;
             width: 100vw;
             background: linear-gradient(135deg, #0f1115 0%, #050608 100%);
             background-attachment: fixed;
-            overflow: hidden; /* Evitamos scroll */
+            overflow: hidden;
         }
 
         body::before {
@@ -54,18 +55,21 @@
         }
 
         .main-container {
-            width: 92%;
-            max-width: 380px;
-            padding: 16px 20px; /* Reducido de 24px */
+            width: 95%;
+            max-width: 400px;
+            /* Recalculado para ocupar el 97% de la altura visible del dispositivo */
+            height: 97vh; 
+            padding: 24px 20px;
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
-            border-radius: 32px;
+            border-radius: 36px;
             box-shadow: 0 40px 100px rgba(0,0,0,0.9), inset 0 0 40px rgba(0,0,0,0.5);
             backdrop-filter: blur(40px);
             position: relative;
             display: flex;
             flex-direction: column;
-            gap: 10px; /* Reducido de 18px */
+            /* Esto estira los elementos para llenar el contenedor de arriba a abajo */
+            justify-content: space-between; 
             margin: auto;
             overflow: hidden;
         }
@@ -85,15 +89,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 8px;
+            padding-top: 10px;
         }
 
         .logo {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.7rem; /* Ligeramente reducido */
+            font-size: 2.2rem;
             font-weight: 800;
             font-style: italic;
-            letter-spacing: -1.5px;
+            letter-spacing: -2px;
             background: linear-gradient(to bottom, #fff 0%, #aaa 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -107,19 +111,19 @@
         .signal-indicator {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.08);
-            padding: 4px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.6rem;
+            font-size: 0.7rem;
             font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             color: var(--text-muted);
         }
 
         .display-group {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
         .display-box {
@@ -127,64 +131,63 @@
             background: #000;
             border: 1px solid rgba(255,255,255,0.1);
             border-left: 4px solid var(--m-blue-light);
-            border-radius: 14px;
-            padding: 12px 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            border-radius: 18px;
+            padding: 16px 12px;
             box-shadow: inset 0 0 20px rgba(0, 162, 232, 0.05);
         }
         .display-box.duty { border-left-color: var(--m-red); }
-        .display-box:active { transform: scale(0.95); }
 
         .display-label {
-            font-size: 0.5rem;
+            font-size: 0.6rem;
             color: var(--text-muted);
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 4px;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
         }
 
         .display-value {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 2.5rem; /* Reducido de 3rem */
+            font-size: 3.2rem; 
             font-weight: 700;
             display: flex;
             align-items: baseline;
-            line-height: 0.9;
+            line-height: 0.85;
             color: #fff;
         }
-        .display-unit { font-size: 0.75rem; color: var(--text-muted); margin-left: 3px; }
+        .display-unit { font-size: 0.9rem; color: var(--text-muted); margin-left: 4px; }
 
         .peak-container {
-            margin-top: 6px;
-            padding-top: 6px;
+            margin-top: 10px;
+            padding-top: 10px;
             border-top: 1px solid rgba(255,255,255,0.05);
-            font-size: 0.55rem;
-            font-weight: 700;
+            font-size: 0.7rem;
             display: flex;
             justify-content: space-between;
         }
 
+        /* Los controles ahora se expanden para llenar el hueco central */
         .controls-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 8px; /* Reducido de 14px */
+            gap: 12px;
+            flex-grow: 1;
+            justify-content: center;
         }
 
         .control-group {
             background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
-            border-radius: 18px;
-            padding: 10px 14px;
+            border-radius: 24px;
+            padding: 16px 20px;
             border: 1px solid var(--panel-border);
         }
 
         .control-label {
-            font-size: 0.6rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             text-transform: uppercase;
             font-weight: 800;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
             display: block;
         }
 
@@ -195,76 +198,74 @@
         }
 
         .btn-plus-minus {
-            width: 44px; /* Reducido de 50px */
-            height: 44px;
+            width: 58px;
+            height: 58px;
             background: linear-gradient(135deg, #1e2128 0%, #0c0d10 100%);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
+            border-radius: 16px;
             color: #fff;
-            font-size: 1.4rem;
+            font-size: 2rem;
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.5);
         }
 
         .control-value {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 2.2rem; /* Reducido de 2.6rem */
+            font-size: 3rem;
             font-weight: 700;
             color: #fff;
+            text-shadow: 0 0 30px rgba(255,255,255,0.2);
+        }
+
+        .action-area {
+            width: 100%;
+            padding-bottom: 10px;
         }
 
         #prepareBtn {
             background: linear-gradient(135deg, #ed1c24 0%, #8b1014 100%);
             color: white;
             border: none;
-            padding: 16px; /* Reducido de 20px */
-            border-radius: 16px;
-            font-size: 1.1rem;
+            padding: 24px;
+            border-radius: 20px;
+            font-size: 1.4rem;
             font-weight: 800;
             width: 100%;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            box-shadow: 0 10px 25px rgba(237, 28, 36, 0.3);
+            box-shadow: 0 15px 35px rgba(237, 28, 36, 0.3);
             cursor: pointer;
-            margin-top: 4px;
         }
 
         .slider-container {
             display: none;
             background: #000;
             border-radius: 50px;
-            height: 60px; /* Reducido de 68px */
+            height: 76px;
             width: 100%;
             position: relative;
             border: 2px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden; 
-            margin-top: 4px;
-        }
-
-        .slider-container.success-state {
-            border-color: var(--m-blue-light);
-            box-shadow: 0 0 30px rgba(0, 162, 232, 0.4);
+            overflow: hidden;
         }
 
         .slider-track-text {
             position: absolute;
             width: 100%; height: 100%;
             display: flex; justify-content: center; align-items: center;
-            color: #444; font-size: 0.7rem; font-weight: 900;
-            letter-spacing: 1.5px; z-index: 1; text-transform: uppercase;
+            color: #444; font-size: 0.85rem; font-weight: 900;
+            letter-spacing: 2px; z-index: 1; text-transform: uppercase;
         }
 
         .slider-thumb {
-            width: 50px; height: 50px;
+            width: 64px; height: 64px;
             background: linear-gradient(135deg, var(--m-red), #9e1217);
             border-radius: 50%;
-            position: absolute; left: 5px; top: 3px;
+            position: absolute; left: 6px; top: 4px;
             display: flex; justify-content: center; align-items: center;
             z-index: 6;
-            box-shadow: 0 5px 15px rgba(237, 28, 36, 0.5);
+            box-shadow: 0 5px 20px rgba(237, 28, 36, 0.6);
         }
 
         .slider-progress {
@@ -274,19 +275,15 @@
         }
 
         .warning-msg {
-            font-size: 0.55rem;
+            font-size: 0.6rem;
             color: var(--warning-orange);
             font-weight: 900;
             text-align: center;
-            margin-top: 4px;
+            margin-top: 6px;
             visibility: hidden;
             letter-spacing: 1px;
         }
 
-        .critical { 
-            border-color: rgba(255, 170, 0, 0.4); 
-            background: linear-gradient(180deg, rgba(255, 170, 0, 0.05) 0%, transparent 100%); 
-        }
         .critical .warning-msg { visibility: visible; animation: pulse-warn 1s infinite; }
 
         @keyframes pulse-warn {
@@ -305,11 +302,12 @@
     <div class="header">
         <div class="logo">N54 <span>KING</span></div>
         <div class="signal-indicator">
-            <div id="statusDot" style="width:7px; height:7px; border-radius:50%; background:#ed1c24; box-shadow:0 0 10px #ed1c24;"></div>
+            <div id="statusDot" style="width:10px; height:10px; border-radius:50%; background:#ed1c24; box-shadow:0 0 10px #ed1c24;"></div>
             <span id="statusText">SIN SEÑAL</span>
         </div>
     </div>
 
+    <!-- Lectura de sensores -->
     <div class="display-group">
         <div class="display-box" onclick="resetPeak('boost')">
             <div class="display-label">BOOST</div>
@@ -329,9 +327,10 @@
         </div>
     </div>
 
+    <!-- Controles centrales (Ajustados para llenar el espacio) -->
     <div class="controls-wrapper" id="controlsContainer">
         <div class="control-group">
-            <span class="control-label">Presión Inicial (PSI)</span>
+            <span class="control-label">Presión Inicial</span>
             <div class="control-row">
                 <button class="btn-plus-minus" onmousedown="handlePress(event, 'pi', -1)" ontouchstart="handlePress(event, 'pi', -1)">-</button>
                 <span class="control-value" id="valPI">10</span>
@@ -341,7 +340,7 @@
         </div>
 
         <div class="control-group">
-            <span class="control-label">Presión Final (PSI)</span>
+            <span class="control-label">Presión Final</span>
             <div class="control-row">
                 <button class="btn-plus-minus" onmousedown="handlePress(event, 'pf', -1)" ontouchstart="handlePress(event, 'pf', -1)">-</button>
                 <span class="control-value" id="valPF">20</span>
@@ -351,7 +350,7 @@
         </div>
 
         <div class="control-group" id="dutyGroupI">
-            <span class="control-label">Duty Inicial (%)</span>
+            <span class="control-label">Duty Inicial</span>
             <div class="control-row">
                 <button class="btn-plus-minus" onmousedown="handlePress(event, 'di', -1)" ontouchstart="handlePress(event, 'di', -1)">-</button>
                 <span class="control-value" id="valDI">30</span>
@@ -361,7 +360,7 @@
         </div>
 
         <div class="control-group" id="dutyGroupF">
-            <span class="control-label">Duty Final (%)</span>
+            <span class="control-label">Duty Final</span>
             <div class="control-row">
                 <button class="btn-plus-minus" onmousedown="handlePress(event, 'df', -1)" ontouchstart="handlePress(event, 'df', -1)">-</button>
                 <span class="control-value" id="valDF">60</span>
@@ -371,13 +370,14 @@
         </div>
     </div>
 
-    <div class="action-area" style="min-height: 70px; display:flex; align-items:center;">
+    <!-- Área final del botón (Pegada al borde inferior del contenedor) -->
+    <div class="action-area">
         <button id="prepareBtn" onclick="showSlider()">PROGRAMAR ECU</button>
         <div class="slider-container" id="sliderContainer">
             <div class="slider-progress" id="sliderProgress"></div>
             <div class="slider-track-text" id="sliderText">CONFIRMAR ESCRITURA</div>
             <div class="slider-thumb" id="sliderThumb">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="white"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
             </div>
         </div>
     </div>
@@ -440,12 +440,12 @@
     const onEnd = () => {
         if (!isDragging) return;
         isDragging = false;
-        let pos = parseInt(thumb.style.left) || 5;
-        let maxPos = container.offsetWidth - 55;
-        if (pos > maxPos - 10) confirmProgram();
+        let pos = parseInt(thumb.style.left) || 6;
+        let maxPos = container.offsetWidth - 70;
+        if (pos > maxPos - 15) confirmProgram();
         else {
             thumb.style.transition = 'all 0.4s ease';
-            thumb.style.left = '5px';
+            thumb.style.left = '6px';
             progress.style.width = '0';
             sliderText.style.opacity = '1';
         }
@@ -454,10 +454,10 @@
         if (!isDragging) return;
         let clientX = e.touches ? e.touches[0].clientX : e.clientX;
         let rect = container.getBoundingClientRect();
-        let maxPos = container.offsetWidth - 55;
-        let x = Math.max(5, Math.min(clientX - rect.left - 25, maxPos));
+        let maxPos = container.offsetWidth - 70;
+        let x = Math.max(6, Math.min(clientX - rect.left - 32, maxPos));
         thumb.style.left = x + 'px';
-        progress.style.width = x + 25 + 'px';
+        progress.style.width = x + 32 + 'px';
         sliderText.style.opacity = 1 - (x / maxPos);
     };
 
@@ -470,11 +470,10 @@
 
     function confirmProgram() {
         haptic([80, 50, 100]);
-        container.classList.add('success-state');
-        thumb.style.left = (container.offsetWidth - 55) + 'px';
+        thumb.style.left = (container.offsetWidth - 70) + 'px';
         thumb.style.background = 'var(--m-blue-light)';
-        thumb.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
-        sliderText.innerText = "EXITOSO";
+        thumb.innerHTML = '<svg viewBox="0 0 24 24" width="32" height="32" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+        sliderText.innerText = "ESCRITURA COMPLETA";
         sliderText.style.opacity = "1";
         sliderText.style.color = "var(--m-blue-light)";
         setTimeout(() => {
@@ -482,11 +481,10 @@
             document.getElementById('controlsContainer').style.opacity = '1';
             document.getElementById('prepareBtn').style.display = 'block';
             container.style.display = 'none';
-            container.classList.remove('success-state');
-            thumb.style.left = '5px';
+            thumb.style.left = '6px';
             thumb.style.background = 'linear-gradient(135deg, var(--m-red), #9e1217)';
             progress.style.width = '0';
-            thumb.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>';
+            thumb.innerHTML = '<svg viewBox="0 0 24 24" width="32" height="32" fill="white"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>';
             sliderText.innerText = "CONFIRMAR ESCRITURA";
             sliderText.style.color = "#444";
         }, 2000);
