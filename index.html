@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>N54 King Performance</title>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-     <style>
+    <style>
         :root {
             --bg-dark: #050608;
             --panel-bg: rgba(10, 12, 16, 0.96);
@@ -34,12 +33,12 @@
             margin: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             width: 100vw;
             background: linear-gradient(135deg, #0f1115 0%, #050608 100%);
             background-attachment: fixed;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         body::before {
@@ -55,69 +54,66 @@
         }
 
         .main-container {
-            width: 95%;
-            max-width: 400px;
-            /* Recalculado para ocupar el 97% de la altura visible del dispositivo */
-            height: 97vh; 
-            padding: 24px 20px;
+            width: 92%;
+            max-width: 390px;
+            height: auto;
+            padding: 20px; /* Reducido de 24px */
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
-            border-radius: 36px;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.9), inset 0 0 40px rgba(0,0,0,0.5);
+            border-radius: 28px; /* Ligeramente más compacto */
+            box-shadow: 0 30px 80px rgba(0,0,0,0.9), inset 0 0 40px rgba(0,0,0,0.5);
             backdrop-filter: blur(40px);
             position: relative;
             display: flex;
             flex-direction: column;
-            /* Esto estira los elementos para llenar el contenedor de arriba a abajo */
-            justify-content: space-between; 
-            margin: auto;
+            gap: 14px; /* Reducido de 18px */
+            margin: 1vh auto 20px auto; /* Reducido margen superior e inferior */
             overflow: hidden;
         }
 
         .m-accent-border {
             position: absolute;
             top: 0; left: 0; right: 0;
-            height: 6px;
+            height: 5px;
             display: flex;
             z-index: 20;
         }
-        .b-1 { background: var(--m-blue-light); flex: 1; box-shadow: 0 2px 10px rgba(0, 162, 232, 0.4); }
-        .b-2 { background: var(--m-blue-dark); flex: 1; box-shadow: 0 2px 10px rgba(28, 57, 187, 0.4); }
-        .b-3 { background: var(--m-red); flex: 1; box-shadow: 0 2px 10px rgba(237, 28, 36, 0.4); }
+        .b-1 { background: var(--m-blue-light); flex: 1; }
+        .b-2 { background: var(--m-blue-dark); flex: 1; }
+        .b-3 { background: var(--m-red); flex: 1; }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 10px;
+            margin-top: 8px;
         }
 
         .logo {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 2.2rem;
+            font-size: 1.8rem; /* Reducido de 2rem */
             font-weight: 800;
             font-style: italic;
-            letter-spacing: -2px;
+            letter-spacing: -1.5px;
             background: linear-gradient(to bottom, #fff 0%, #aaa 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .logo span { 
-            color: var(--m-red); 
+        .logo span {
+            color: var(--m-red);
             -webkit-text-fill-color: var(--m-red);
-            text-shadow: 0 0 15px rgba(237, 28, 36, 0.4);
         }
 
         .signal-indicator {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.08);
-            padding: 6px 14px;
+            padding: 5px 12px;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             color: var(--text-muted);
         }
 
@@ -130,64 +126,65 @@
             flex: 1;
             background: #000;
             border: 1px solid rgba(255,255,255,0.1);
-            border-left: 4px solid var(--m-blue-light);
-            border-radius: 18px;
-            padding: 16px 12px;
-            box-shadow: inset 0 0 20px rgba(0, 162, 232, 0.05);
+            border-left: 3px solid var(--m-blue-light);
+            border-radius: 12px;
+            padding: 12px 10px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
         .display-box.duty { border-left-color: var(--m-red); }
+        .display-box:active { transform: scale(0.97); }
 
         .display-label {
-            font-size: 0.6rem;
+            font-size: 0.5rem;
             color: var(--text-muted);
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 6px;
+            letter-spacing: 1.5px;
+            margin-bottom: 4px;
         }
 
         .display-value {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 3.2rem; 
+            font-size: 2.6rem; /* Reducido de 3rem */
             font-weight: 700;
             display: flex;
             align-items: baseline;
-            line-height: 0.85;
+            line-height: 0.9;
             color: #fff;
         }
-        .display-unit { font-size: 0.9rem; color: var(--text-muted); margin-left: 4px; }
+        .display-unit { font-size: 0.8rem; color: var(--text-muted); margin-left: 3px; }
 
         .peak-container {
-            margin-top: 10px;
-            padding-top: 10px;
+            margin-top: 6px;
+            padding-top: 6px;
             border-top: 1px solid rgba(255,255,255,0.05);
-            font-size: 0.7rem;
+            font-size: 0.55rem;
+            font-weight: 700;
             display: flex;
             justify-content: space-between;
         }
 
-        /* Los controles ahora se expanden para llenar el hueco central */
         .controls-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            flex-grow: 1;
-            justify-content: center;
+            gap: 10px; /* Reducido de 14px */
         }
 
         .control-group {
             background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
-            border-radius: 24px;
-            padding: 16px 20px;
+            border-radius: 18px;
+            padding: 12px 14px; /* Reducido de 16px */
             border: 1px solid var(--panel-border);
         }
 
         .control-label {
-            font-size: 0.75rem;
+            font-size: 0.6rem;
             color: var(--text-muted);
             text-transform: uppercase;
             font-weight: 800;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: block;
         }
 
@@ -198,74 +195,73 @@
         }
 
         .btn-plus-minus {
-            width: 58px;
-            height: 58px;
+            width: 44px; /* Reducido de 50px */
+            height: 44px;
             background: linear-gradient(135deg, #1e2128 0%, #0c0d10 100%);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
+            border-radius: 10px;
             color: #fff;
-            font-size: 2rem;
+            font-size: 1.4rem;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.5);
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
         }
 
         .control-value {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 3rem;
+            font-size: 2.3rem; /* Reducido de 2.6rem */
             font-weight: 700;
             color: #fff;
-            text-shadow: 0 0 30px rgba(255,255,255,0.2);
-        }
-
-        .action-area {
-            width: 100%;
-            padding-bottom: 10px;
         }
 
         #prepareBtn {
             background: linear-gradient(135deg, #ed1c24 0%, #8b1014 100%);
             color: white;
             border: none;
-            padding: 24px;
-            border-radius: 20px;
-            font-size: 1.4rem;
+            padding: 16px; /* Reducido de 20px */
+            border-radius: 14px;
+            font-size: 1.1rem;
             font-weight: 800;
             width: 100%;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            box-shadow: 0 15px 35px rgba(237, 28, 36, 0.3);
             cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2px;
         }
 
         .slider-container {
             display: none;
             background: #000;
-            border-radius: 50px;
-            height: 76px;
+            border-radius: 40px;
+            height: 60px; /* Reducido de 68px */
             width: 100%;
             position: relative;
             border: 2px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
+            margin-top: 2px;
         }
 
         .slider-track-text {
             position: absolute;
             width: 100%; height: 100%;
             display: flex; justify-content: center; align-items: center;
-            color: #444; font-size: 0.85rem; font-weight: 900;
-            letter-spacing: 2px; z-index: 1; text-transform: uppercase;
+            color: #444;
+            font-size: 0.7rem;
+            font-weight: 900;
+            z-index: 1;
         }
 
         .slider-thumb {
-            width: 64px; height: 64px;
+            width: 50px; height: 50px; /* Reducido */
             background: linear-gradient(135deg, var(--m-red), #9e1217);
             border-radius: 50%;
-            position: absolute; left: 6px; top: 4px;
+            position: absolute; left: 5px; top: 3px;
             display: flex; justify-content: center; align-items: center;
             z-index: 6;
-            box-shadow: 0 5px 20px rgba(237, 28, 36, 0.6);
+            box-shadow: 0 4px 10px rgba(237, 28, 36, 0.5);
         }
 
         .slider-progress {
@@ -275,20 +271,19 @@
         }
 
         .warning-msg {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             color: var(--warning-orange);
             font-weight: 900;
             text-align: center;
-            margin-top: 6px;
+            margin-top: 4px;
             visibility: hidden;
-            letter-spacing: 1px;
         }
 
         .critical .warning-msg { visibility: visible; animation: pulse-warn 1s infinite; }
 
         @keyframes pulse-warn {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.98); }
         }
     </style>
 </head>
@@ -302,12 +297,11 @@
     <div class="header">
         <div class="logo">N54 <span>KING</span></div>
         <div class="signal-indicator">
-            <div id="statusDot" style="width:10px; height:10px; border-radius:50%; background:#ed1c24; box-shadow:0 0 10px #ed1c24;"></div>
+            <div id="statusDot" style="width:7px; height:7px; border-radius:50%; background:#ed1c24; box-shadow:0 0 8px #ed1c24;"></div>
             <span id="statusText">SIN SEÑAL</span>
         </div>
     </div>
 
-    <!-- Lectura de sensores -->
     <div class="display-group">
         <div class="display-box" onclick="resetPeak('boost')">
             <div class="display-label">BOOST</div>
@@ -327,7 +321,6 @@
         </div>
     </div>
 
-    <!-- Controles centrales (Ajustados para llenar el espacio) -->
     <div class="controls-wrapper" id="controlsContainer">
         <div class="control-group">
             <span class="control-label">Presión Inicial</span>
@@ -370,14 +363,13 @@
         </div>
     </div>
 
-    <!-- Área final del botón (Pegada al borde inferior del contenedor) -->
-    <div class="action-area">
+    <div class="action-area" style="min-height: 70px; display:flex; align-items:center;">
         <button id="prepareBtn" onclick="showSlider()">PROGRAMAR ECU</button>
         <div class="slider-container" id="sliderContainer">
             <div class="slider-progress" id="sliderProgress"></div>
-            <div class="slider-track-text" id="sliderText">CONFIRMAR ESCRITURA</div>
+            <div class="slider-track-text" id="sliderText">DESLIZAR PARA GRABAR</div>
             <div class="slider-thumb" id="sliderThumb">
-                <svg viewBox="0 0 24 24" width="32" height="32" fill="white"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
             </div>
         </div>
     </div>
@@ -427,7 +419,8 @@
         isLocked = true;
         document.getElementById('controlsContainer').style.opacity = '0.3';
         document.getElementById('prepareBtn').style.display = 'none';
-        document.getElementById('sliderContainer').style.display = 'block';
+        const container = document.getElementById('sliderContainer');
+        container.style.display = 'block';
     }
 
     const thumb = document.getElementById('sliderThumb');
@@ -436,28 +429,31 @@
     const sliderText = document.getElementById('sliderText');
     let isDragging = false;
 
-    const onStart = () => { if (!isLocked) return; isDragging = true; thumb.style.transition = 'none'; };
+    const onStart = (e) => { if (!isLocked) return; isDragging = true; thumb.style.transition = 'none'; };
+    
     const onEnd = () => {
         if (!isDragging) return;
         isDragging = false;
-        let pos = parseInt(thumb.style.left) || 6;
-        let maxPos = container.offsetWidth - 70;
-        if (pos > maxPos - 15) confirmProgram();
-        else {
-            thumb.style.transition = 'all 0.4s ease';
-            thumb.style.left = '6px';
+        let pos = parseInt(thumb.style.left) || 5;
+        let maxPos = container.offsetWidth - 55;
+        if (pos > maxPos - 10) {
+            confirmProgram();
+        } else {
+            thumb.style.transition = 'all 0.3s ease';
+            thumb.style.left = '5px';
             progress.style.width = '0';
             sliderText.style.opacity = '1';
         }
     };
+
     const onMove = (e) => {
         if (!isDragging) return;
         let clientX = e.touches ? e.touches[0].clientX : e.clientX;
         let rect = container.getBoundingClientRect();
-        let maxPos = container.offsetWidth - 70;
-        let x = Math.max(6, Math.min(clientX - rect.left - 32, maxPos));
+        let maxPos = container.offsetWidth - 55;
+        let x = Math.max(5, Math.min(clientX - rect.left - 25, maxPos));
         thumb.style.left = x + 'px';
-        progress.style.width = x + 32 + 'px';
+        progress.style.width = x + 25 + 'px';
         sliderText.style.opacity = 1 - (x / maxPos);
     };
 
@@ -470,22 +466,25 @@
 
     function confirmProgram() {
         haptic([80, 50, 100]);
-        thumb.style.left = (container.offsetWidth - 70) + 'px';
+        container.style.borderColor = 'var(--m-blue-light)';
+        thumb.style.left = (container.offsetWidth - 55) + 'px';
         thumb.style.background = 'var(--m-blue-light)';
-        thumb.innerHTML = '<svg viewBox="0 0 24 24" width="32" height="32" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
-        sliderText.innerText = "ESCRITURA COMPLETA";
+        thumb.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+        sliderText.innerText = "ÉXITO";
         sliderText.style.opacity = "1";
         sliderText.style.color = "var(--m-blue-light)";
+
         setTimeout(() => {
             isLocked = false;
             document.getElementById('controlsContainer').style.opacity = '1';
             document.getElementById('prepareBtn').style.display = 'block';
             container.style.display = 'none';
-            thumb.style.left = '6px';
+            container.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+            thumb.style.left = '5px';
             thumb.style.background = 'linear-gradient(135deg, var(--m-red), #9e1217)';
             progress.style.width = '0';
-            thumb.innerHTML = '<svg viewBox="0 0 24 24" width="32" height="32" fill="white"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>';
-            sliderText.innerText = "CONFIRMAR ESCRITURA";
+            thumb.innerHTML = `<svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>`;
+            sliderText.innerText = "DESLIZAR PARA GRABAR";
             sliderText.style.color = "#444";
         }, 2000);
     }
